@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.customermapperpackage.CustomerMapper">
+
+	<resultMap id="customerResultMap" type="Customer">
+		<!-- <id property="application names" column="table names" /> -->
+		<id property="id" column="id" />
+		<result property="id" column="id" />
+		<result property="firstName" column="first_name" />
+		<result property="birthDate" column="birth_date" />
+		<result property="formattedBirthDate" column="formattedBirthDate" />
+		<result property="gender" column="gender" />
+		<result property="email" column="email" />
+		<result property="hobby" column="hobby" />
+		<result property="pastUser" column="past_user" />
+		<result property="record" column="record" />
+	</resultMap>
+
+	<insert id="saveCustomer" parameterType="Customer">
+		INSERT INTO customer_detailes(
+			first_name,
+			birth_date,
+			gender,
+			email,
+			hobby,
+			past_user,
+			record
+		) 
+		values 
+		(
+			#{firstName},
+			#{birthDate},
+			#{gender},
+			#{email},
+			#{hobby},
+			#{pastUser},
+			#{record}
+		)
+	</insert>
+
+	<select id="getAllCustomer" resultMap="customerResultMap">
+		SELECT 
+		id, 
+		first_name, 
+		birth_date,
+		DATE_FORMAT(CAST(birth_date AS DATE), '%d/%m/%Y') AS formattedBirthDate,
+		gender, 
+		email, 
+		hobby, 
+		past_user, 
+		record 
+		FROM 
+		customer_detailes;
+	</select>
+
+	<delete id="deleteCustomer">
+		DELETE FROM customer_detailes 
+		WHERE 
+		id=#{id};
+	</delete>
+
+	<update id="updateCustomer" parameterType="Customer">
+		UPDATE 
+			customer_detailes 
+		SET 
+			first_name = #{firstName},
+			birth_date=#{birthDate},
+			gender = #{gender},
+			email=#{email},
+			hobby=#{hobby},
+			past_user=#{pastUser},
+			record=#{record}
+		WHERE 
+			id = #{id};
+	</update>
+
+	<select id="getEmail" resultMap="customerResultMap">
+		SELECT
+			email 
+		FROM
+			customer_detailes;
+	</select>
+
+</mapper>

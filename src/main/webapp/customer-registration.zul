@@ -1,0 +1,152 @@
+<?page title="Registration Web site" contentType="text/html;charset=UTF-8"?>
+<zk xmlns:x="xhtml">
+
+	<style>
+		<![CDATA[ /* Your CSS styles here */ 
+		.columnsstyle {
+			background-color: hsl(180, 100%, 20%); } 
+		.caption {
+			color: hsl(180, 100%, 20%);
+		} 
+		.width-50{
+			width="50px";
+		}
+		.cmn-toggle>input { 
+			position: absolute;
+			margin-left: -9999px; visibility: hidden;
+		}
+		.cmn-toggle>label {
+			display: block; position: relative; cursor:
+			pointer; outline: none; user-select: none;
+		}
+		.cmn-toggle-round-flat>label {
+			padding: 2px; width: 40px;
+			height: 20px; background-color: #dddddd;
+			border-radius: 60px; transition: background 0.4s;
+		}
+		.cmn-toggle-round-flat>label:before, .cmn-toggle-round-flat>label:after {
+			display: block; position:
+			absolute; content: "";
+		}
+		.cmn-toggle-round-flat>label:before {
+			top: 2px; left: 2px;
+			bottom: 2px; right: 2px; background-color: #fff; border-radius:
+			60px; transition: background 0.4s;
+		}
+		.cmn-toggle-round-flat>label:after {
+			top: 4px; left: 4px;
+			bottom: 4px; width: 14px; background-color: #dddddd;
+			border-radius: 52px; transition: margin 0.4s, background 0.4s;
+		}
+		.cmn-toggle-round-flat>input:checked+label {
+			background-color:
+			#006666;
+		}
+		.cmn-toggle-round-flat>input:checked+label:after {
+			margin-left:
+			22px; background-color: #006666;
+		}
+		]]>
+	</style>
+
+	<window apply="com.customercontrollerpackage.CustomerController" title="QDev" border="normal" id="windowid" style="background-color: hsl(180, 100%, 20%);">
+		<groupbox id="customerfirstgroupbox" closable="true">
+			<caption sclass="caption" label="Customer registration form"/>
+			<grid sclass="customerForm" id="customerFormGrid">
+				<columns sizable="true">
+					<column width="200px"/>
+					<column/>
+				</columns>
+				<rows>
+					<row>
+						<label visible="false"/>
+						<intbox id="customerIntbox" visible="false"/>
+					</row>
+					<row>
+						<label value="* Name"/>
+						<textbox id="firstNameTextbox" />
+					</row>
+					<row>
+						<label value="* Date Of Birth"/>
+						<datebox id="birthdateDatebox" format="dd-MM-yy" constraint="no empty"/>
+					</row>
+					<row>
+						<label value="* Gender"></label>
+						<radiogroup id="genderRadiobox">
+							<radio id="genderRadioboxMale" value="true" label="Male"/>
+							<radio id="genderRadioboxFemale" value="false" label="Female"/>
+						</radiogroup>
+					</row>
+					<row>
+						<label value="* Email"/>
+						<textbox id="emailTextbox" constraint="no empty,"/>
+					</row>
+					<row>
+						<label value=" Hobby"/>
+						<cell>
+							<checkbox id="travelCheckbox" label="Travel" sclass="width-50" />
+							<checkbox id="readingCheckbox" label="Reading" sclass="width-50" />
+							<checkbox id="singingCheckbox" label="Singing" sclass="width-50" />
+							<checkbox id="trekCheckbox" label="Trekking" sclass="width-50" />
+							<checkbox id="swimmingCheckbox" label="Swimming" sclass="width-50"  />
+						</cell>
+					</row>
+					<row>
+						<label value=" Are you a Past user?"/>
+						<listbox mold="select" id="pastUserListbox">
+							<listitem label="Please select" selected="true" value="1"/>
+							<listitem label="Yes" value="2"/>
+							<listitem label="No" value="3"/>
+						</listbox>
+					</row>
+					<row>
+						<label value=" Record?"/>
+						<checkbox zclass="cmn-toggle" id="recordCheckbox" sclass="cmn-toggle-round-flat"/>
+					</row>
+					<row>
+						<button sclass="columnsstyle" id="saveCustomerButton" label="Save"/>
+					</row>
+				</rows>
+			</grid>
+		</groupbox>
+		<groupbox id="customersecondgroup">
+			<caption sclass="caption" label="Customer List"/>
+			<grid id="customerlistGrid" sclass="gridstyle" >
+				<columns>
+					<column label="Id" width="3%" sclass="columnsstyle"/>
+					<column label="Name" sclass="columnsstyle" sort="auto(firstName)"/>
+					<column label="DOB" sclass="columnsstyle"/>
+					<column label="Gender" sclass="columnsstyle"/>
+					<column label="Email" sclass="columnsstyle" width="20%"/>
+					<column label="Hobby" sclass="columnsstyle" />
+					<column label="Past User" sclass="columnsstyle"/>
+					<column label="Record"  sclass="columnsstyle"/>
+					<column label="Action" width="10%" sclass="columnsstyle"/>
+				</columns>
+				<template name="model">
+					<row>
+						<label value="${each.id}"/>
+						<label value="${each.firstName}"/>
+						<label value="${each.formattedBirthDate}"/>
+						<label value="${each.gender ? 'male' : 'female'}"/>
+						<label value="${each.email}"/>
+						<label value="${each.hobby}"/>
+						<label>
+							<attribute name="value">
+								<![CDATA[ ${each.pastUser == 1 ? 'Please select' : each.pastUser == 2 ? 'Yes' : each.pastUser == 3 ? 'No' : 'Unknown'}
+								]]>
+							</attribute>
+						</label>
+
+						<label value="${each.record}"/>
+						<cell>
+						<toolbarbutton image="img/delete1.png" sclass="btn-delete" forward="onDeleteClick(${each})"/>
+						<toolbarbutton image="img/edit2.png" sclass="btn-update" forward="onUpdate(${each})"/>
+						</cell>
+					</row>
+				</template>
+			</grid>
+			<paging id="paging" pageSize="5"/>
+		</groupbox>
+	</window>
+</zk>

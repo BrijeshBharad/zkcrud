@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app version="2.4"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<display-name>Archetype Created Web Application</display-name>
+	
+	<welcome-file-list>
+		<welcome-file>customer-registration.zul</welcome-file>
+	</welcome-file-list>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/applicationContext.xml</param-value>
+	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+</web-app>
